@@ -57,9 +57,11 @@
    NOT_STARTED, IN_PROGRESS, COMPLETED
    }
    ```
-
+[Решение](src/main/java/ru/ergakov/gb)
 
 ---
 ### Задание со звездочкой:
 Приложен к материалам семинара файл 
 [StrongHomeTask.txt](StrongHomeTask.txt)
+
+__*Ещё не решено (((*__
