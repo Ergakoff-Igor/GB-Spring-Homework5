@@ -7,37 +7,72 @@ import ru.ergakov.gb.models.TaskStatus;
 import ru.ergakov.gb.services.TaskService;
 
 import java.util.List;
-import java.util.Optional;
 
+/**
+ * Класс - контроллер, используется для обработки запросов
+ */
 @RestController
 @RequestMapping("/tasks")
 @AllArgsConstructor
 public class TaskController {
     private final TaskService taskService;
+
+    /**
+     * Метод обработки GET запроса без параметров
+     * //localhost:8080/tasks
+     *
+     * @return список всех задач
+     */
     @GetMapping()
-    public List<Task> getAllBook(){
+    public List<Task> getAllTask() {
         return taskService.getAllTasks();
     }
 
-    @PostMapping()//localhost:8080/tasks/param?description= ...
+    /**
+     * POST метод обработки запроса добавления задачи через параметр
+     * //localhost:8080/tasks/param?description= ...
+     *
+     * @param description тело задачи, передается через параметр
+     * @return новая задача
+     */
+    @PostMapping()
     @ResponseBody
-    public Task userAddFromParam(@RequestParam("description") String description) {
-        Task task = taskService.createTask(description);
-        return taskService.saveTask(task);
+    public Task addTaskFromParam(@RequestParam("description") String description) {
+        return taskService.createTask(description);
     }
 
+    /**
+     * GET метод обработки запроса списка задач с указанным статусом
+     * //localhost:8080/tasks/status/(NOT_STARTED, IN_PROGRESS, COMPLETED)
+     *
+     * @param status искомый статус
+     * @return список задач
+     */
     @GetMapping("/status/{status}")
-    public List<Task> getTasksByStatus(@PathVariable TaskStatus status){
+    public List<Task> getTasksByStatus(@PathVariable TaskStatus status) {
         return taskService.findTaskByStatus(status);
     }
 
+    /**
+     * PUT метод обработки запроса изменения статуса задачи по id
+     * //localhost:8080/tasks/{id}
+     *
+     * @param id Id задачи
+     * @return задача с измененным статусом
+     */
     @PutMapping("/{id}")
-    public Task updateTaskStatus(@PathVariable Long id){
+    public Task updateTaskStatus(@PathVariable Long id) {
         return taskService.updateTaskStatus(id);
     }
 
+    /**
+     * DELETE метод обработки запроса удаления задачи по id
+     * //localhost:8080/tasks/{id}
+     *
+     * @param id Id задачи
+     */
     @DeleteMapping("/{id}")
-    public void deleteTask(@PathVariable Long id){
+    public void deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
     }
 
